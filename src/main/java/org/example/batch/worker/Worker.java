@@ -20,7 +20,7 @@ public class Worker {
         executorService.shutdown();
 
         try {
-            executorService.awaitTermination(3, TimeUnit.MINUTES);
+            executorService.awaitTermination(20, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

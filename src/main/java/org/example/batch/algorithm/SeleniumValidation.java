@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,11 +23,12 @@ public class SeleniumValidation implements ValidationAlgorithm{
 
         System.setProperty(WEB_DRIVER_ID,WEB_DRIVER_PATH);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        chromeOptions.addArguments("--remote-allow-origins=*");
+        ChromeOptions options = new ChromeOptions();
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--disable-gpu");
 
-        ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+        ChromeDriver chromeDriver = new ChromeDriver(options);
 
         chromeDriver.get("https://www.schoolinfo.go.kr/Main.do");
 
@@ -79,7 +81,7 @@ public class SeleniumValidation implements ValidationAlgorithm{
                 return false;
             }
             element.click();
-            Thread.sleep(delay);
+            Thread.sleep(delay+1500);
             if (value > 5) {
                 value = 5;
             }

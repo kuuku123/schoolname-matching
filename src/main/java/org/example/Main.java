@@ -17,16 +17,18 @@ public class Main {
     public static void main(String[] args) {
 
 
-//        String sourceFile = "comments.csv";
+        String sourceFile = "comments.csv";
 //        String sourceFile = "testlittle.csv";
-        String sourceFile = "test.csv";
+//        String sourceFile = "test.csv";
+        int delay = 1000;
+        int threads = 15;
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream fileStream = classloader.getResourceAsStream(sourceFile);
         BufferedReader br = new BufferedReader(new InputStreamReader(fileStream));
 
         Writer writer = new Writer("result.txt");
-        Worker patternMatchingWorker = new Worker(Executors.newFixedThreadPool(10));
-        Worker validationWorker = new Worker(Executors.newFixedThreadPool(10));
+        Worker patternMatchingWorker = new Worker(Executors.newFixedThreadPool(threads));
+        Worker validationWorker = new Worker(Executors.newFixedThreadPool(threads));
 
         Regex regex = new Regex();
         SeleniumValidation seleniumValidation = new SeleniumValidation();
@@ -36,16 +38,16 @@ public class Main {
 
         patternMatching(br, patternMatchingWorker, regex, patterMatchingResultRepository);
 
-        validation(validationWorker, seleniumValidation, patterMatchingResultRepository, validationResultRepository,1000);
+        validation(validationWorker, seleniumValidation, patterMatchingResultRepository, validationResultRepository,delay,threads);
 
         writer.write(validationResultRepository.getRepo());
 
     }
 
-    private static void validation(Worker validationWorker, SeleniumValidation seleniumValidation, PatterMatchingResultRepository patterMatchingResultRepository, ValidationResultRepository validationResultRepository,int delay) {
+    private static void validation(Worker validationWorker, SeleniumValidation seleniumValidation, PatterMatchingResultRepository patterMatchingResultRepository, ValidationResultRepository validationResultRepository,int delay,int threads) {
         ConcurrentHashMap<String, Integer> patternMatchedResult = patterMatchingResultRepository.getRepo();
-        int split = patternMatchedResult.size() / 10;
-        if (split < 10) {
+        int split = patternMatchedResult.size() / threads;
+        if (split < threads) {
             split  = patternMatchedResult.size();
         }
         int index = 0;

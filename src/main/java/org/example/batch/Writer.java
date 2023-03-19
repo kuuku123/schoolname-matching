@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,7 +25,9 @@ public class Writer {
                     new FileOutputStream(filePath), "UTF-8");
             BufferedWriter bw = new BufferedWriter(writer);
 
-            for (String pattern : verifiedResult.keySet()) {
+            ArrayList<String> keyList = new ArrayList<>(verifiedResult.keySet());
+            keyList.sort((s1 ,s2) -> s1.compareTo(s2));
+            for (String pattern : keyList) {
                 Integer count = verifiedResult.get(pattern);
                 bw.write(pattern + " "+ count);
                 bw.newLine();
