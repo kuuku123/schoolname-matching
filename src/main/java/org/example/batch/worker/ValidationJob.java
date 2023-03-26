@@ -1,7 +1,7 @@
 package org.example.batch.worker;
 
-import org.example.batch.PatternDto;
-import org.example.batch.algorithm.ValidationAlgorithm;
+import org.example.batch.algorithm.validation.ValidationAlgorithm;
+import org.example.batch.repository.ResultRepository;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +13,8 @@ public class ValidationJob implements Runnable{
     private HashMap<String,Integer> source;
     private int delay;
 
-    public ValidationJob(ValidationAlgorithm validationAlgorithm, ResultRepository resultRepository, HashMap<String, Integer> source, int delay) {
+    public ValidationJob(ValidationAlgorithm validationAlgorithm, ResultRepository resultRepository, HashMap<String, Integer> source,
+                         int delay) {
         this.validationAlgorithm = validationAlgorithm;
         this.resultRepository = resultRepository;
         this.source = source;

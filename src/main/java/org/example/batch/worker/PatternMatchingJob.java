@@ -1,8 +1,8 @@
 package org.example.batch.worker;
 
 import org.example.batch.PatternDto;
-import org.example.batch.algorithm.PatterMatchingAlgorithm;
-import org.example.batch.Writer;
+import org.example.batch.algorithm.patter_matching.PatterMatchingAlgorithm;
+import org.example.batch.repository.ResultRepository;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,7 +26,6 @@ public class PatternMatchingJob implements Runnable{
         ConcurrentHashMap<String, Integer> patternMatchedResult = resultRepository.getRepo();
         for (PatternDto patternDto : solve) {
             String key = patternDto.getPattern();
-            System.out.println("key = " + key);
             int value = patternDto.getCount();
             patternMatchedResult.put(key,value);
         }

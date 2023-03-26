@@ -1,4 +1,4 @@
-package org.example.batch.worker;
+package org.example.batch.repository;
 
 import java.util.concurrent.ConcurrentHashMap;
 

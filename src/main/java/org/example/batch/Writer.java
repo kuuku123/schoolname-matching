@@ -1,13 +1,10 @@
 package org.example.batch;
 
-import org.example.batch.algorithm.ValidationAlgorithm;
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Writer {

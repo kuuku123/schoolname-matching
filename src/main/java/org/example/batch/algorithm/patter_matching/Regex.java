@@ -1,4 +1,4 @@
-package org.example.batch.algorithm;
+package org.example.batch.algorithm.patter_matching;
 
 import org.example.batch.PatternDto;
 

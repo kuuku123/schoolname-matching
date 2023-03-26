@@ -1,8 +1,11 @@
 package org.example;
 
 import org.example.batch.Writer;
-import org.example.batch.algorithm.Regex;
-import org.example.batch.algorithm.SeleniumValidation;
+import org.example.batch.algorithm.patter_matching.Regex;
+import org.example.batch.algorithm.validation.SeleniumValidation;
+import org.example.batch.repository.PatterMatchingResultRepository;
+import org.example.batch.repository.ResultRepository;
+import org.example.batch.repository.ValidationResultRepository;
 import org.example.batch.worker.*;
 
 import java.io.BufferedReader;
@@ -20,21 +23,31 @@ public class Main {
         String sourceFile = "comments.csv";
 //        String sourceFile = "testlittle.csv";
 //        String sourceFile = "test.csv";
-        int delay = 1000;
-        int threads = 15;
+//        String sourceFile = "test2.csv";
+
+        /**
+         * 필요한 parameter 설정
+         */
+        int delay = 1500;
+        int threads = 13;
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream fileStream = classloader.getResourceAsStream(sourceFile);
-        BufferedReader br = new BufferedReader(new InputStreamReader(fileStream));
-
-        Writer writer = new Writer("result.txt");
         Worker patternMatchingWorker = new Worker(Executors.newFixedThreadPool(threads));
         Worker validationWorker = new Worker(Executors.newFixedThreadPool(threads));
+
+        /**
+         * read, write 작업준비
+         */
+        BufferedReader br = new BufferedReader(new InputStreamReader(fileStream));
+        Writer writer = new Writer("result.txt");
+
+
 
         Regex regex = new Regex();
         SeleniumValidation seleniumValidation = new SeleniumValidation();
 
-        PatterMatchingResultRepository patterMatchingResultRepository = new PatterMatchingResultRepository();
-        ValidationResultRepository validationResultRepository = new ValidationResultRepository();
+        ResultRepository patterMatchingResultRepository = new PatterMatchingResultRepository();
+        ResultRepository validationResultRepository = new ValidationResultRepository();
 
         patternMatching(br, patternMatchingWorker, regex, patterMatchingResultRepository);
 
@@ -44,7 +57,9 @@ public class Main {
 
     }
 
-    private static void validation(Worker validationWorker, SeleniumValidation seleniumValidation, PatterMatchingResultRepository patterMatchingResultRepository, ValidationResultRepository validationResultRepository,int delay,int threads) {
+    private static void validation(Worker validationWorker, SeleniumValidation seleniumValidation,
+                                   ResultRepository patterMatchingResultRepository, ResultRepository validationResultRepository,
+                                   int delay, int threads) {
         ConcurrentHashMap<String, Integer> patternMatchedResult = patterMatchingResultRepository.getRepo();
         int split = patternMatchedResult.size() / threads;
         if (split < threads) {
@@ -66,7 +81,7 @@ public class Main {
         validationWorker.finish();
     }
 
-    private static void patternMatching(BufferedReader br,Worker patternMatchingWorker, Regex regex, PatterMatchingResultRepository patterMatchingResultRepository) {
+    private static void patternMatching(BufferedReader br,Worker patternMatchingWorker, Regex regex, ResultRepository patterMatchingResultRepository) {
         StringBuilder source = new StringBuilder();
 
         while(true) {
@@ -90,6 +105,5 @@ public class Main {
         }
 
         patternMatchingWorker.finish();
-        System.out.println("hi");
     }
 }

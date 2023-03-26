@@ -1,13 +1,12 @@
-package org.example.batch.algorithm;
+package org.example.batch.algorithm.validation;
 
-import com.beust.ah.A;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +30,6 @@ public class SeleniumValidation implements ValidationAlgorithm{
         ChromeDriver chromeDriver = new ChromeDriver(options);
 
         chromeDriver.get("https://www.schoolinfo.go.kr/Main.do");
-
         try {
             for (String key : source.keySet()) {
                 chromeDriver.findElement(By.xpath("//*[@id=\"SEARCH_KEYWORD\"]")).clear();
@@ -44,6 +42,7 @@ public class SeleniumValidation implements ValidationAlgorithm{
                 String elementSchool = "//*[@id=\"contents\"]/div/ul/li[2]/a";
                 String middleSchool = "//*[@id=\"contents\"]/div/ul/li[3]/a";
                 String highSchool = "//*[@id=\"contents\"]/div/ul/li[4]/a";
+                String elseSchool = "//*[@id=\"contents\"]/div/ul/li[5]/a";
 
                 if (verifySchoolName(chromeDriver,elementSchool,result,source,key,delay)) {
                     continue;
@@ -51,11 +50,23 @@ public class SeleniumValidation implements ValidationAlgorithm{
                 if(verifySchoolName(chromeDriver,middleSchool,result,source,key,delay)) {
                     continue;
                 }
-                verifySchoolName(chromeDriver,highSchool,result,source,key,delay);
+                if (verifySchoolName(chromeDriver,highSchool,result,source,key,delay)) {
+                    continue;
+                }
+                verifySchoolName(chromeDriver,elseSchool,result,source,key,delay);
 
             }
 
             return result;
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("****");
+            System.out.println("****");
+            System.out.println("================ need to adjust Parameter(delay,threads) =======================");
+            System.out.println("****");
+            System.out.println("****");
+            System.out.println("e = " + e);
+            throw e;
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -90,7 +101,9 @@ public class SeleniumValidation implements ValidationAlgorithm{
                 String target = schoolElement.getText();
                 String candidate1 = key + "학교";
                 String candidate2 = key + "등학교";
-//                System.out.println("target = " + target + " candidate1 = " + candidate1 + " candidate2 = " + candidate2);
+                String candidate3 = boyOrGirlOrElse(key);
+
+
                 if (target.equals(key)) {
                     result.put(target, source.get(key));
                     return true;
@@ -101,8 +114,38 @@ public class SeleniumValidation implements ValidationAlgorithm{
                     result.put(candidate2, source.get(key));
                     return true;
                 }
+                else if(target.equals(candidate3)) {
+                    result.put(candidate3,source.get(key));
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    private String boyOrGirlOrElse(String key) {
+        String candidate3 = null;
+        String boyOrGirlOrElse = key.substring(key.length() - 2, key.length());
+        String substring = key.substring(0, key.length() - 2);
+        if (boyOrGirlOrElse.equals("여중")) {
+            candidate3 = substring +  "여자중학교";
+        }
+        else if(boyOrGirlOrElse.equals("남중")) {
+            candidate3 = substring + "남자중학교";
+        }
+        else if(boyOrGirlOrElse.equals("여고")) {
+            candidate3 = substring + "여자고등학교";
+        }
+        else if(boyOrGirlOrElse.equals("남고")) {
+            candidate3 = substring + "남자고등학교";
+        }
+        else if(boyOrGirlOrElse.equals("예고")) {
+            candidate3 = substring + "예술고등학교";
+        }
+        else if(boyOrGirlOrElse.equals("체고")) {
+            candidate3 = substring + "체육고등학교";
+        }
+
+        return candidate3;
     }
 }
