@@ -1,5 +1,7 @@
 # schoolname-matching
 
+https://github.com/kuuku123/schoolname-matching
+
 Pattern-Matching , Validation 으로 2개의 처리 과정을 거쳐서 결과를 도출함 
 
 학교이름 비슷한 단어들을 Regex로 (~초, ~중,~고 , ~초등학교 ,~중학교, ~고등학교) 후보군들을 찾은후에
