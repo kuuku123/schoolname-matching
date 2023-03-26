@@ -17,8 +17,14 @@ public class SeleniumValidation implements ValidationAlgorithm{
     public HashMap<String,Integer> verify(HashMap<String, Integer> source, int delay) {
 
         HashMap<String,Integer> result = new HashMap<>();
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+
         String WEB_DRIVER_ID = "webdriver.chrome.driver";
-        String WEB_DRIVER_PATH = "/home/tony/workspace/java/test/pattern-matching/chromedriver";
+        String WEB_DRIVER_PATH = System.getProperty("webdriver");
+        if (WEB_DRIVER_PATH == null) {
+            WEB_DRIVER_PATH = classloader.getResource("chromedriver").getPath();
+        }
+        System.out.println("WEB_DRIVER_PATH = " + WEB_DRIVER_PATH);
 
         System.setProperty(WEB_DRIVER_ID,WEB_DRIVER_PATH);
 

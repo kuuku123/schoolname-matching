@@ -22,9 +22,6 @@ public class Main {
 
 
         String sourceFile = "comments.csv";
-//        String sourceFile = "testlittle.csv";
-//        String sourceFile = "test.csv";
-//        String sourceFile = "test2.csv";
 
         /**
          * 필요한 parameter 설정
