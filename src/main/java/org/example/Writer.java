@@ -1,4 +1,4 @@
-package org.example.batch;
+package org.example;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -23,7 +23,7 @@ public class Writer {
             BufferedWriter bw = new BufferedWriter(writer);
 
             ArrayList<String> keyList = new ArrayList<>(verifiedResult.keySet());
-            keyList.sort((s1 ,s2) -> s1.compareTo(s2));
+            keyList.sort(String::compareTo);
             for (String pattern : keyList) {
                 Integer count = verifiedResult.get(pattern);
                 bw.write(pattern + " "+ count);

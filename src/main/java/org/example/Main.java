@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.batch.Writer;
 import org.example.batch.algorithm.patter_matching.Regex;
 import org.example.batch.algorithm.validation.SeleniumValidation;
 import org.example.batch.repository.PatterMatchingResultRepository;

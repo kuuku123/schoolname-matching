@@ -1,6 +1,6 @@
 package org.example.batch.worker;
 
-import org.example.batch.PatternDto;
+import org.example.batch.dto.PatternDto;
 import org.example.batch.algorithm.patter_matching.PatterMatchingAlgorithm;
 import org.example.batch.repository.ResultRepository;
 

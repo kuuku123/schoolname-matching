@@ -1,6 +1,6 @@
 package org.example.batch.algorithm.patter_matching;
 
-import org.example.batch.PatternDto;
+import org.example.batch.dto.PatternDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +14,7 @@ public class Regex implements PatterMatchingAlgorithm{
 
         ArrayList<PatternDto> patternDtos = new ArrayList<>();
 
-//        String regexPattern1 = "\\S+(초등학교|중학교|고등학교)";
         String regexPattern1 = "[ㄱ-힣]{2,6}(초등학교|중학교|고등학교)";
-//        String regexPattern2 = "\\S+(초|중|고)(?!등학교|학교)";
         String regexPattern2 = "[ㄱ-힣]{2,6}(초|중|고)(?!등학교|학교)";
 
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();

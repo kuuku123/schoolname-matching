@@ -1,6 +1,6 @@
 package org.example.batch.algorithm.patter_matching;
 
-import org.example.batch.PatternDto;
+import org.example.batch.dto.PatternDto;
 
 public interface PatterMatchingAlgorithm {
 

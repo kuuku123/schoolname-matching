@@ -1,4 +1,4 @@
-package org.example.batch;
+package org.example.batch.dto;
 
 public class PatternDto {
 
