@@ -1,7 +1,9 @@
 package org.example;
 
+import org.example.batch.algorithm.patter_matching.PatterMatchingAlgorithm;
 import org.example.batch.algorithm.patter_matching.Regex;
 import org.example.batch.algorithm.validation.SeleniumValidation;
+import org.example.batch.algorithm.validation.ValidationAlgorithm;
 import org.example.batch.repository.PatterMatchingResultRepository;
 import org.example.batch.repository.ResultRepository;
 import org.example.batch.repository.ValidationResultRepository;
@@ -40,15 +42,13 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(fileStream));
         Writer writer = new Writer("result.txt");
 
-
-
-        Regex regex = new Regex();
-        SeleniumValidation seleniumValidation = new SeleniumValidation();
+        PatterMatchingAlgorithm regexPatternMatching = new Regex();
+        ValidationAlgorithm seleniumValidation = new SeleniumValidation();
 
         ResultRepository patterMatchingResultRepository = new PatterMatchingResultRepository();
         ResultRepository validationResultRepository = new ValidationResultRepository();
 
-        patternMatching(br, patternMatchingWorker, regex, patterMatchingResultRepository);
+        patternMatching(br, patternMatchingWorker, regexPatternMatching, patterMatchingResultRepository);
 
         validation(validationWorker, seleniumValidation, patterMatchingResultRepository, validationResultRepository,delay,threads);
 
@@ -56,7 +56,7 @@ public class Main {
 
     }
 
-    private static void validation(Worker validationWorker, SeleniumValidation seleniumValidation,
+    private static void validation(Worker validationWorker, ValidationAlgorithm seleniumValidation,
                                    ResultRepository patterMatchingResultRepository, ResultRepository validationResultRepository,
                                    int delay, int threads) {
         ConcurrentHashMap<String, Integer> patternMatchedResult = patterMatchingResultRepository.getRepo();
@@ -80,7 +80,7 @@ public class Main {
         validationWorker.finish();
     }
 
-    private static void patternMatching(BufferedReader br,Worker patternMatchingWorker, Regex regex, ResultRepository patterMatchingResultRepository) {
+    private static void patternMatching(BufferedReader br,Worker patternMatchingWorker, PatterMatchingAlgorithm regex, ResultRepository patterMatchingResultRepository) {
         StringBuilder source = new StringBuilder();
 
         while(true) {
