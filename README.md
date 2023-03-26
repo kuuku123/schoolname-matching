@@ -2,7 +2,7 @@
 
 https://github.com/kuuku123/schoolname-matching
 
-linux에서 만 잘되고 window 로 시도시 schoolinfo에서 한글이 깨짐
+linux에서 만 잘되고 window 로 시도시 schoolinfo에서 한글이 깨짐 + https://colabear754.tistory.com/87 에나온것 처럼 인증서(_.schoolinfo.go.kr.crt)를 jdk에 추가해줘야함
 
 Pattern-Matching , Validation 으로 2개의 처리 과정을 거쳐서 결과를 도출함 
 
